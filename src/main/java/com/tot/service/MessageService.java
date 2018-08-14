@@ -8,5 +8,4 @@ import java.util.List;
 public interface MessageService {
 
     List<String> postInputMessages(List<String> inputMessages);
-
 }

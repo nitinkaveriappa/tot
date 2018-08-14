@@ -1,16 +1,23 @@
 package com.tot.service;
 
+import com.tot.repo.MessagesRepository;
 import com.tot.util.MessageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+@Service
 public class MessageServiceImpl implements MessageService {
 
     private final static Logger logger = LoggerFactory.getLogger(MessageServiceImpl.class);
+
+    @Autowired
+    private MessagesRepository messagesRepository;
 
     @Override
     public List<String> postInputMessages(List<String> inputMessages) {
@@ -43,6 +50,8 @@ public class MessageServiceImpl implements MessageService {
         }
         logger.info("checkedList: "+checkedList);
         logger.info("uncheckedList: "+uncheckedList);
+
+
         return checkedList;
     }
 }
