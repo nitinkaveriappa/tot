@@ -10,9 +10,9 @@ public class MessageUtil {
 
     private final static Logger logger = LoggerFactory.getLogger(MessageUtil.class);
 
-    private String getEmblem(String kingdom) {
+    public String getEmblem(String kingdom) {
         kingdom = kingdom.toUpperCase();
-        String emblem = "";
+        String emblem = null;
         switch (kingdom) {
             case "LAND":
                 emblem = Kingdom.LAND.getEmblem();
@@ -32,7 +32,7 @@ public class MessageUtil {
             default:
                 break;
         }
-        if(emblem.equals("")) {
+        if(emblem != null) {
             return emblem;
         }
         else {
@@ -41,7 +41,7 @@ public class MessageUtil {
         }
     }
 
-    private HashMap<Character, Integer> countCharsInMessage(String msg) {
+    public HashMap<Character, Integer> countCharsInMessage(String msg) {
         msg = msg.toLowerCase();
         int len = msg.length();
         HashMap<Character, Integer> cntChars = new HashMap<>(Math.min(len, 26));
@@ -58,7 +58,7 @@ public class MessageUtil {
         return cntChars;
     }
 
-    private boolean checkSecretExists(HashMap<Character, Integer> secretHashMap, HashMap<Character, Integer> msgHashMap) {
+    public boolean checkSecretExists(HashMap<Character, Integer> secretHashMap, HashMap<Character, Integer> msgHashMap) {
         for(Character c : secretHashMap.keySet()) {
             if(msgHashMap.containsKey(c)) {
                 if(msgHashMap.get(c) < secretHashMap.get(c)) {
@@ -70,21 +70,5 @@ public class MessageUtil {
             }
         }
         return true;
-    }
-
-    public static void main(String args[]) {
-        String kingdom = "ICE";
-        String msg2 = "Ahoy! Fight for me with men and money";
-        MessageUtil messageUtil = new MessageUtil();
-
-        String emblem = messageUtil.getEmblem(kingdom);
-        System.out.println("Emblem: " + emblem);
-
-        HashMap<Character, Integer> secret = messageUtil.countCharsInMessage(emblem);
-        HashMap<Character, Integer> msg = messageUtil.countCharsInMessage(msg2);
-
-
-        System.out.println("Equals Method: " +secret.equals(msg));
-        System.out.println("Check: " + messageUtil.checkSecretExists(secret, msg));
     }
 }
