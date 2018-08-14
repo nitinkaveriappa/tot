@@ -1,6 +1,5 @@
 package com.tot.util;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -10,28 +9,21 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class MessageUtilTest {
-
-    private MessageUtil messageUtil;
-
-    @Before
-    public void init() {
-       messageUtil = new MessageUtil();
-    }
-
+    
     @Test
     public void getEmblemTest() {
-        assertEquals(messageUtil.getEmblem("LAND"), "PANDA");
-        assertEquals(messageUtil.getEmblem("ICE"), "MAMMOTH");
-        assertEquals(messageUtil.getEmblem("WATER"), "OCTOPUS");
-        assertEquals(messageUtil.getEmblem("AIR"), "OWL");
-        assertEquals(messageUtil.getEmblem("FIRE"), "DRAGON");
+        assertEquals(MessageUtil.getEmblem("LAND"), "PANDA");
+        assertEquals(MessageUtil.getEmblem("ICE"), "MAMMOTH");
+        assertEquals(MessageUtil.getEmblem("WATER"), "OCTOPUS");
+        assertEquals(MessageUtil.getEmblem("AIR"), "OWL");
+        assertEquals(MessageUtil.getEmblem("FIRE"), "DRAGON");
     }
 
     @Test
     public void countCharsInMessageTest() {
         int i;
         String kingdom = "ICE";
-        HashMap<Character, Integer> hashMap = messageUtil.countCharsInMessage(messageUtil.getEmblem(kingdom));
+        HashMap<Character, Integer> hashMap = MessageUtil.countCharsInMessage(MessageUtil.getEmblem(kingdom));
         i = hashMap.get('m');
         assertEquals(i,3);
         i = hashMap.get('a');
@@ -48,19 +40,19 @@ public class MessageUtilTest {
     public void checkSecretExistsTrue() {
         String kingdom = "ICE";
         String msg2 = "Ahoy! Fight for me with men and money";
-        String emblem = messageUtil.getEmblem(kingdom);
-        HashMap<Character, Integer> secret = messageUtil.countCharsInMessage(emblem);
-        HashMap<Character, Integer> msg = messageUtil.countCharsInMessage(msg2);
-        assertTrue(messageUtil.checkSecretExists(secret, msg));
+        String emblem = MessageUtil.getEmblem(kingdom);
+        HashMap<Character, Integer> secret = MessageUtil.countCharsInMessage(emblem);
+        HashMap<Character, Integer> msg = MessageUtil.countCharsInMessage(msg2);
+        assertTrue(MessageUtil.checkSecretExists(secret, msg));
     }
 
     @Test
     public void checkSecretExistsFalse() {
         String kingdom = "WATER";
         String msg2 = "“Summer is coming”";
-        String emblem = messageUtil.getEmblem(kingdom);
-        HashMap<Character, Integer> secret = messageUtil.countCharsInMessage(emblem);
-        HashMap<Character, Integer> msg = messageUtil.countCharsInMessage(msg2);
-        assertFalse(messageUtil.checkSecretExists(secret, msg));
+        String emblem = MessageUtil.getEmblem(kingdom);
+        HashMap<Character, Integer> secret = MessageUtil.countCharsInMessage(emblem);
+        HashMap<Character, Integer> msg = MessageUtil.countCharsInMessage(msg2);
+        assertFalse(MessageUtil.checkSecretExists(secret, msg));
     }
 }

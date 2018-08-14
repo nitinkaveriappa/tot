@@ -10,7 +10,7 @@ public class MessageUtil {
 
     private final static Logger logger = LoggerFactory.getLogger(MessageUtil.class);
 
-    public String getEmblem(String kingdom) {
+    public static String getEmblem(String kingdom) {
         kingdom = kingdom.toUpperCase();
         String emblem = null;
         switch (kingdom) {
@@ -36,12 +36,11 @@ public class MessageUtil {
             return emblem;
         }
         else {
-            logger.info("Kingdom value Invalid");
             return "NADA";
         }
     }
 
-    public HashMap<Character, Integer> countCharsInMessage(String msg) {
+    public static HashMap<Character, Integer> countCharsInMessage(String msg) {
         msg = msg.toLowerCase();
         int len = msg.length();
         HashMap<Character, Integer> cntChars = new HashMap<>(Math.min(len, 26));
@@ -54,11 +53,10 @@ public class MessageUtil {
                 cntChars.put(charAt, cntChars.get(charAt) + 1);
             }
         }
-        logger.info(cntChars.toString());
         return cntChars;
     }
 
-    public boolean checkSecretExists(HashMap<Character, Integer> secretHashMap, HashMap<Character, Integer> msgHashMap) {
+    public static boolean checkSecretExists(HashMap<Character, Integer> secretHashMap, HashMap<Character, Integer> msgHashMap) {
         for(Character c : secretHashMap.keySet()) {
             if(msgHashMap.containsKey(c)) {
                 if(msgHashMap.get(c) < secretHashMap.get(c)) {
