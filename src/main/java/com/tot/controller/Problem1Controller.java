@@ -24,8 +24,7 @@ public class Problem1Controller {
     @RequestMapping(value = "/sendmsgs", method = RequestMethod.POST)
     public ResponseEntity<?> sendMessages(String[] inputMessages) {
         logger.info("Inside Problem1Controller: sendMessages(): "+ Arrays.toString(inputMessages));
-        messageService.postInputMessages(inputMessages);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return messageService.postInputMessages(inputMessages);
     }
 
 }
