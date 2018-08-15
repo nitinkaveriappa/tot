@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.Assert.assertFalse;
@@ -19,32 +19,27 @@ public class MessageServiceTest {
 
     @Before
     public void initial() {
-        messageService = new MessageServiceImpl();
+        messageService = new MessageService();
     }
 
     @Test
-    public void postInputMessagesTest() {
+    public void parseInputMessagesTest() {
         logger.info("Test 1 ##############################");
-        List<String> list = new ArrayList<>();
-        list.add("Air, oaaawaala");
-        list.add("Land, a1d22n333a4444p");
-        list.add("Ice, zmzmzmzaztzozh");
-        List<String> res = messageService.postInputMessages(list);
-        assertTrue(res.contains("Air"));
-        assertTrue(res.contains("Land"));
-        assertTrue(res.contains("Ice"));
+        String[] msgs = new String[]{"Air, oaaawaala", "Land, a1d22n333a4444p", "Ice, zmzmzmzaztzozh"};
+        HashMap<String, List<String>> res = messageService.parseInputMessages(msgs);
+        List<String> checkedList = res.get("checkedList");
+        assertTrue(checkedList.contains("Air"));
+        assertTrue(checkedList.contains("Land"));
+        assertTrue(checkedList.contains("Ice"));
         logger.info("Test 2 ##############################");
-        list = new ArrayList<>();
-        list.add("Air, Let’s swing the sword together");
-        list.add("Land, Die or play the tame of thrones");
-        list.add("Ice, Ahoy! Fight for me with men and money");
-        list.add("Water, Summer is coming");
-        list.add("Fire, Drag on Martin!");
-        res = messageService.postInputMessages(list);
-        assertTrue(res.contains("Air"));
-        assertTrue(res.contains("Land"));
-        assertTrue(res.contains("Ice"));
-        assertFalse(res.contains("Water"));
-        assertTrue(res.contains("Fire"));
+        msgs = new String[]{"Air, Let’s swing the sword together", "Land, Die or play the tame of thrones",
+                "Ice, Ahoy! Fight for me with men and money", "Water, Summer is coming", "Fire, Drag on Martin!"};
+        res = messageService.parseInputMessages(msgs);
+        checkedList = res.get("checkedList");
+        assertTrue(checkedList.contains("Air"));
+        assertTrue(checkedList.contains("Land"));
+        assertTrue(checkedList.contains("Ice"));
+        assertFalse(checkedList.contains("Water"));
+        assertTrue(checkedList.contains("Fire"));
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -22,8 +23,8 @@ public class Problem1Controller {
     private MessageService messageService;
 
     @RequestMapping(value = "/sendmsgs", method = RequestMethod.POST)
-    public ResponseEntity<?> sendMessages(List<String> inputMessages) {
-        logger.info("Inside Problem1Controller: sendMessages(): "+ inputMessages);
+    public ResponseEntity<?> sendMessages(String[] inputMessages) {
+        logger.info("Inside Problem1Controller: sendMessages(): "+ Arrays.toString(inputMessages));
         messageService.postInputMessages(inputMessages);
         return new ResponseEntity<>(HttpStatus.OK);
     }

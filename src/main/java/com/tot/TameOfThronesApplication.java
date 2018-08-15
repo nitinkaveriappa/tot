@@ -2,11 +2,13 @@ package com.tot;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
+@EnableJpaRepositories
 public class TameOfThronesApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TameOfThronesApplication.class, args);
+	    SpringApplication.run(TameOfThronesApplication.class, args);
 	}
 }

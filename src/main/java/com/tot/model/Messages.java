@@ -1,11 +1,10 @@
 package com.tot.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.util.List;
+import lombok.Data;
 
+import javax.persistence.*;
+
+@Data
 @Entity
 public class Messages {
 
@@ -23,4 +22,6 @@ public class Messages {
     @Column(name = "receivers")
     private String receivers;
 
+    @Column(name = "verifiedreceivers")
+    private String verifiedreceivers;
 }
