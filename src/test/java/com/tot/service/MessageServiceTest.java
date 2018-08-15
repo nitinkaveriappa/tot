@@ -19,7 +19,7 @@ public class MessageServiceTest {
 
     @Before
     public void initial() {
-        messageService = new MessageService();
+        messageService = new MessageServiceImpl();
     }
 
     @Test
