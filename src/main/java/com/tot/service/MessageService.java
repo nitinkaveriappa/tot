@@ -11,4 +11,6 @@ public interface MessageService {
 
     ResponseEntity<?> postInputMessages(String[] inputMessages);
 
+    ResponseEntity<?> whosRuler();
+
 }

@@ -4,6 +4,7 @@ import com.tot.model.Messages;
 import com.tot.repo.MessagesRepository;
 import com.tot.util.GeneralUtil;
 import com.tot.util.MessageUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 
 @Service
+@Slf4j
 public class MessageServiceImpl implements MessageService {
-
-    private final static Logger logger = LoggerFactory.getLogger(MessageServiceImpl.class);
 
     @Autowired
     private MessagesRepository messagesRepository;
@@ -35,27 +35,27 @@ public class MessageServiceImpl implements MessageService {
             try {
                 kingdom = split[0].trim();
                 emblem = MessageUtil.getEmblem(kingdom);
-                logger.info("emblem: "+emblem);
+                log.info("emblem: "+emblem);
                 if (emblem.equals("NADA")) {
                     throw new Exception("Invalid Kingdom Value");
                 }
             } catch (Exception e) {
-                logger.info("Invalid Kingdom Value");
+                log.info("Invalid Kingdom Value");
             }
             HashMap<Character, Integer> secret = MessageUtil.countCharsInMessage(emblem);
-            logger.info("secret: "+secret);
+            log.info("secret: "+secret);
             message = split[1].trim();
             HashMap<Character, Integer> msg = MessageUtil.countCharsInMessage(message);
-            logger.info("msg: "+msg);
-            logger.info("add to uncheckedList: "+kingdom);
+            log.info("msg: "+msg);
+            log.info("add to uncheckedList: "+kingdom);
             uncheckedList.add(kingdom);
             if(MessageUtil.checkSecretExists(secret, msg)) {
-                logger.info("add to checkedList: "+kingdom);
+                log.info("add to checkedList: "+kingdom);
                 checkedList.add(kingdom);
             }
         }
-        logger.info("checkedList: "+checkedList);
-        logger.info("uncheckedList: "+uncheckedList);
+        log.info("checkedList: "+checkedList);
+        log.info("uncheckedList: "+uncheckedList);
 
         res.put("checkedList", checkedList);
         res.put("uncheckedList", uncheckedList);
@@ -67,13 +67,26 @@ public class MessageServiceImpl implements MessageService {
         HashMap<String, List<String>> op = parseInputMessages(inputMessages);
         Messages messages = new Messages();
         messages.setId(GeneralUtil.getUniqueID());
-        messages.setInputmessages(Arrays.toString(inputMessages));
+        messages.setInputmessages(inputMessages);
         messages.setSender("King Shah");
         messages.setReceivers(op.get("uncheckedList").toString());
         messages.setVerifiedreceivers(op.get("checkedList").toString());
-        logger.info("Messages: " + messages);
+        log.info("Messages: " + messages);
         messagesRepository.save(messages);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity("Messages Parsed Successfully",HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> whosRuler() {
+        String ruler="";
+        List<Messages> list = messagesRepository.findAll();
+        for(Messages msgs: list) {
+            log.info("Input Messages: ");
+            for(String sa : msgs.getInputmessages()) {
+                log.info(sa);
+            }
+        }
+        return new ResponseEntity("The Ruler is: "+ruler, HttpStatus.OK);
     }
 
 }

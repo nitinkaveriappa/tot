@@ -14,7 +14,7 @@ public class Messages {
     private Long id;
 
     @Column(name = "inputmessages")
-    private String inputmessages;
+    private String[] inputmessages;
 
     @Column(name = "sender")
     private String sender;
