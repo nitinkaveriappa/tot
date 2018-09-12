@@ -1,5 +1,6 @@
 package com.tot.service;
 
+import com.tot.model.Messages;
 import org.springframework.http.ResponseEntity;
 
 import java.util.HashMap;
@@ -9,8 +10,12 @@ public interface MessageService {
 
     HashMap<String, List<String>> parseInputMessages(String[] inputMessages);
 
-    ResponseEntity<?> postInputMessages(String[] inputMessages);
+    ResponseEntity<?> postInputMessages(String sender, String[] inputMessages);
 
-    ResponseEntity<?> whosRuler();
+    HashMap<String, Integer> countVotes(List<Messages> msgs);
+
+    String whosRuler();
+
+    String alliesOfRuler(String sender);
 
 }

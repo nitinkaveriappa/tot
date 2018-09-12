@@ -5,7 +5,8 @@ public enum Kingdom {
     WATER("OCTOPUS"),
     ICE("MAMMOTH"),
     AIR("OWL"),
-    FIRE("DRAGON");
+    FIRE("DRAGON"),
+    SPACE("GORILLA");
 
     private final String emblem;
 

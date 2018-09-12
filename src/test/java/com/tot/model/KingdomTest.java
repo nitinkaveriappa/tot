@@ -13,5 +13,6 @@ public class KingdomTest {
         assertEquals(Kingdom.ICE.getEmblem(),"MAMMOTH");
         assertEquals(Kingdom.AIR.getEmblem(),"OWL");
         assertEquals(Kingdom.FIRE.getEmblem(),"DRAGON");
+        assertEquals(Kingdom.SPACE.getEmblem(),"GORILLA");
     }
 }

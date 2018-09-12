@@ -12,10 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -63,30 +60,72 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public ResponseEntity<?> postInputMessages(String[] inputMessages) {
+    public ResponseEntity<?> postInputMessages(String sender, String[] inputMessages) {
         HashMap<String, List<String>> op = parseInputMessages(inputMessages);
         Messages messages = new Messages();
         messages.setId(GeneralUtil.getUniqueID());
         messages.setInputmessages(inputMessages);
-        messages.setSender("King Shah");
-        messages.setReceivers(op.get("uncheckedList").toString());
-        messages.setVerifiedreceivers(op.get("checkedList").toString());
+        messages.setSender(sender);
+        messages.setReceivers(op.get("uncheckedList").toArray(new String[0]));
+        messages.setVerifiedreceivers(op.get("checkedList").toArray(new String[0]));
         log.info("Messages: " + messages);
         messagesRepository.save(messages);
         return new ResponseEntity("Messages Parsed Successfully",HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<?> whosRuler() {
-        String ruler="";
-        List<Messages> list = messagesRepository.findAll();
-        for(Messages msgs: list) {
-            log.info("Input Messages: ");
-            for(String sa : msgs.getInputmessages()) {
-                log.info(sa);
+    public HashMap<String, Integer> countVotes(List<Messages> list) {
+        HashMap<String, Integer> votes = new HashMap<>();
+        for(Messages msgs : list) {
+            for(String s : msgs.getVerifiedreceivers()) {
+                if (votes.keySet().contains(msgs.getSender()))
+                    votes.put(msgs.getSender(), votes.get(msgs.getSender()) + 1);
+                else
+                    votes.put(msgs.getSender(), 1);
             }
         }
-        return new ResponseEntity("The Ruler is: "+ruler, HttpStatus.OK);
+        return votes;
     }
 
+    @Override
+    public String whosRuler() {
+        String ruler = "";
+        List<Messages> list = messagesRepository.findAll();
+        int maxValueInMap = 0;
+        HashMap<String, Integer> votes = countVotes(list);
+        for (Map.Entry<String,Integer> entry : votes.entrySet())
+        {
+            String key  = entry.getKey();
+            Integer val = entry.getValue();
+            if (val > maxValueInMap)
+            {
+                maxValueInMap = val;
+                ruler = key;
+            }
+            // If there is a tie, pick lexicographically smaller.
+            else if (val == maxValueInMap &&
+                    ruler.compareTo(key) > 0)
+                ruler = key;
+        }
+        return ruler;
+    }
+
+    @Override
+    public String alliesOfRuler(String sender) {
+        List<String> allies = new ArrayList<>();
+        List<Messages> list;
+        if(sender != null) {
+            list = messagesRepository.findBySender(sender);
+        }
+        else {
+            list = messagesRepository.findBySender(whosRuler());
+        }
+        for(Messages msgs : list) {
+            for (String s : msgs.getVerifiedreceivers()) {
+                allies.add(s);
+            }
+        }
+        return allies.toString().replace("[", "").replace("]", "");
+
+    }
 }

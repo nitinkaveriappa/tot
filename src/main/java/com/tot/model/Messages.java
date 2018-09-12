@@ -13,15 +13,15 @@ public class Messages {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "inputmessages")
+    @Column(name = "inputmessages", columnDefinition = "LONGBLOB")
     private String[] inputmessages;
 
     @Column(name = "sender")
     private String sender;
 
-    @Column(name = "receivers")
-    private String receivers;
+    @Column(name = "receivers", columnDefinition = "LONGBLOB")
+    private String[] receivers;
 
-    @Column(name = "verifiedreceivers")
-    private String verifiedreceivers;
+    @Column(name = "verifiedreceivers", columnDefinition = "LONGBLOB")
+    private String[] verifiedreceivers;
 }
