@@ -126,6 +126,5 @@ public class MessageServiceImpl implements MessageService {
             }
         }
         return allies.toString().replace("[", "").replace("]", "");
-
     }
 }

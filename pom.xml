@@ -5,7 +5,7 @@
 
 	<groupId>com.tot</groupId>
 	<artifactId>tot</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>Set5Problem1</version>
 	<packaging>jar</packaging>
 
 	<name>TameOfThrones</name>
